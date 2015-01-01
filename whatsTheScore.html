@@ -1,14 +1,30 @@
 <head>
-  <title>whatsTheScore</title>
+    <title>What's The Score!</title>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
+<header>Latest Cricket Match Result</header>
+{{> recordScoreOfCricketMatch}}
+<hr/>
+{{> cricketMatchResults}}
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="recordScoreOfCricketMatch">
+    <form class="recordScoreOfCricketMatchForm">
+        <h3>Team 1: <input name="team1" type="text"/></h3>
+
+        <h3>Team 2: <input name="team2" type="text"/></h3>
+
+        <h3>Result Text: <input name="resultText" type="text"/></h3>
+        <input type="submit" value="Record Results"/>
+    </form>
+</template>
+
+<template name="cricketMatchResults">
+    <div id="result">Result</div>
+    <ol>
+        {{#each cricketMatchResults}}
+            <li>{{team1}} vs {{team2}} : {{resultText}} held on {{matchDate}}</li>
+        {{/each}}
+    </ol>
 </template>
