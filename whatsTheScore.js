@@ -1,4 +1,55 @@
 CricketMatchResults = new Mongo.Collection("cricketMatchResults");
+CricketMatchResults.attachSchema(new SimpleSchema({
+    team1: {
+        type: String,
+        label: "Team-1",
+        max: 50
+    },
+    team2: {
+        type: String,
+        label: "Team-2",
+        max: 50
+    },
+    resultText: {
+        type: String,
+        label: "Result",
+        max: 200
+    },
+    matchDate: {
+        type: Date,
+        label: "Held on"
+    },
+    runsOfTeam1: {
+        type: Number,
+        label: "Runs",
+        max: 1000
+    },
+    wicketsOfTeam1: {
+        type: Number,
+        label: "Wickets",
+        max: 10
+    }, team1Overs: {
+        type: Number,
+        label: "Overs",
+        max: 100
+    },
+    runsOfTeam2: {
+        type: Number,
+        label: "Runs",
+        max: 1000
+    },
+    wicketsOfTeam2: {
+        type: Number,
+        label: "Wickets",
+        max: 10
+    },
+    team2Overs: {
+        type: Number,
+        label: "Overs",
+        max: 100
+    }
+
+}));
 
 if (Meteor.isClient) {
 
@@ -12,7 +63,7 @@ if (Meteor.isClient) {
     });
 
     Template.recordScoreOfCricketMatch.events({
-        "submit .recordScoreOfCricketMatchForm": function (event) {
+        "submit #recordScoreOfCricketMatchForm": function (event) {
             Meteor.call("recordScoreOfCricketMatch",
                 event.target.team1.value,
                 event.target.team2.value,
