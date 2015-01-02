@@ -11,20 +11,37 @@
 
 <template name="recordScoreOfCricketMatch">
     <form class="recordScoreOfCricketMatchForm">
-        <h3>Team 1: <input name="team1" type="text"/></h3>
-
-        <h3>Team 2: <input name="team2" type="text"/></h3>
-
+        <h3>Team 1: <input name="team1" type="text" required="required"/> Runs: <input name="runsOfTeam1" type="number" required="required"/> Wickets: <input name="wicketsOfTeam1" type="number" required="required"/> Overs: <input name="team1Overs" type="number" required="required"/></h3>
+        <h3>Team 2: <input name="team2" type="text" required="required"/> Runs: <input name="runsOfTeam2" type="number" required="required"/> Wickets: <input name="wicketsOfTeam2" type="number" required="required"/> Overs: <input name="team2Overs" type="number" required="required"/></h3>
         <h3>Result Text: <input name="resultText" type="text"/></h3>
-        <input type="submit" value="Record Results"/>
+        <input type="submit" value="Record Results" required="required"/>
     </form>
 </template>
 
 <template name="cricketMatchResults">
     <div id="result">Result</div>
-    <ol>
+    <!-- <ol>
         {{#each cricketMatchResults}}
             <li>{{team1}} vs {{team2}} : {{resultText}} held on {{matchDate}}</li>
         {{/each}}
-    </ol>
+    </ol>   -->
+    <table>
+        {{#each cricketMatchResults}}
+            <tr>
+
+                <td>
+                    {{team1}} :{{runsOfTeam1}}/{{wicketsOfTeam1}} ({{team1Overs}})
+                </td>
+                <td>
+                    {{team2}} :{{runsOfTeam2}}/{{wicketsOfTeam2}} ({{team2Overs}})
+                </td>
+                <td>
+                    {{resultText}}
+                </td>
+                <td>
+                   on  {{matchDate}}
+                </td>
+            </tr>
+        {{/each}}
+    </table>
 </template>
