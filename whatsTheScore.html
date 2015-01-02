@@ -3,8 +3,16 @@
 </head>
 
 <body>
-<header>Latest Cricket Match Result</header>
-{{> recordScoreOfCricketMatch}}
+
+<header>
+    Latest Cricket Match Result
+    <button id="recordButton">Start Recording Match</button>
+</header>
+
+{{#if showRecordMatch}}
+    {{> recordScoreOfCricketMatch}}
+{{/if}}
+
 <hr/>
 {{> cricketMatchResults}}
 </body>
@@ -14,20 +22,20 @@
         <fieldset>
             <legend>Team 1</legend>
             <div class="form-group {{#if afFieldIsInvalid name='team1'}}has-error{{/if}}">
-                {{> afFieldInput name='team1' placeholder="schemaLabel"}}
+                {{> afFieldInput name='team1' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
                 {{#if afFieldIsInvalid name='team1'}}
                     <span class="help-block">{{afFieldMessage name='team1'}}</span>
                 {{/if}}
             </div>
             <div class="form-group {{#if afFieldIsInvalid name='runsOfTeam1'}}has-error{{/if}}">
-                {{> afFieldInput name='runsOfTeam1' placeholder="schemaLabel"}}
+                {{> afFieldInput name='runsOfTeam1' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
                 {{#if afFieldIsInvalid name='runsOfTeam1'}}
                     <span class="help-block">{{afFieldMessage name='runsOfTeam1'}}</span>
                 {{/if}}
             </div>
 
             <div class="form-group {{#if afFieldIsInvalid name='wicketsOfTeam1'}}has-error{{/if}}">
-                {{> afFieldInput name='wicketsOfTeam1' placeholder="schemaLabel"}}
+                {{> afFieldInput name='wicketsOfTeam1' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
                 {{#if afFieldIsInvalid name='wicketsOfTeam1'}}
                     <span class="help-block">{{afFieldMessage name='wicketsOfTeam1'}}</span>
                 {{/if}}
@@ -35,7 +43,7 @@
 
 
             <div class="form-group {{#if afFieldIsInvalid name='team1Overs'}}has-error{{/if}}">
-                {{> afFieldInput name='team1Overs' placeholder="schemaLabel"}}
+                {{> afFieldInput name='team1Overs' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
                 {{#if afFieldIsInvalid name='team1Overs'}}
                     <span class="help-block">{{afFieldMessage name='team1Overs'}}</span>
                 {{/if}}
@@ -44,41 +52,43 @@
         <fieldset>
             <legend>Team 2</legend>
             <div class="form-group {{#if afFieldIsInvalid name='team2'}}has-error{{/if}}">
-                {{> afFieldInput name='team2' placeholder="schemaLabel"}}
+                {{> afFieldInput name='team2' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
                 {{#if afFieldIsInvalid name='team2'}}
                     <span class="help-block">{{afFieldMessage name='team2'}}</span>
                 {{/if}}
             </div>
             <div class="form-group {{#if afFieldIsInvalid name='runsOfTeam2'}}has-error{{/if}}">
-                {{> afFieldInput name='runsOfTeam2' placeholder="schemaLabel"}}
+                {{> afFieldInput name='runsOfTeam2' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
                 {{#if afFieldIsInvalid name='runsOfTeam2'}}
                     <span class="help-block">{{afFieldMessage name='runsOfTeam2'}}</span>
                 {{/if}}
             </div>
 
             <div class="form-group {{#if afFieldIsInvalid name='wicketsOfTeam2'}}has-error{{/if}}">
-                {{> afFieldInput name='wicketsOfTeam2' placeholder="schemaLabel"}}
+                {{> afFieldInput name='wicketsOfTeam2' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
                 {{#if afFieldIsInvalid name='wicketsOfTeam2'}}
                     <span class="help-block">{{afFieldMessage name='wicketsOfTeam2'}}</span>
                 {{/if}}
             </div>
 
             <div class="form-group {{#if afFieldIsInvalid name='team2Overs'}}has-error{{/if}}">
-                {{> afFieldInput name='team2Overs' placeholder="schemaLabel"}}
+                {{> afFieldInput name='team2Overs' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
                 {{#if afFieldIsInvalid name='team2Overs'}}
                     <span class="help-block">{{afFieldMessage name='team2Overs'}}</span>
                 {{/if}}
             </div>
         </fieldset>
         <div class="form-group {{#if afFieldIsInvalid name='resultText'}}has-error{{/if}}">
-            {{> afFieldInput name='resultText' placeholder="schemaLabel"}}
+            {{> afFieldInput name='resultText' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
             {{#if afFieldIsInvalid name='resultText'}}
                 <span class="help-block">{{afFieldMessage name='resultText'}}</span>
             {{/if}}
         </div>
+
         <button type="submit" class="btn btn-primary">
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Record Result!
         </button>
+
     {{/autoForm}}
 </template>
 
@@ -86,7 +96,7 @@
     <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th>Team : Runs/Wickets (Overs) </th>
+            <th>Team : Runs/Wickets (Overs)</th>
             <th>Result</th>
             <th>Held on</th>
         </tr>
@@ -96,7 +106,8 @@
             <tr>
                 <td>
                     <b>{{team1}}</b> :{{runsOfTeam1}}/{{wicketsOfTeam1}} ({{team1Overs}}) v/s
-                    <b>{{team2}}</b> :{{runsOfTeam2}}/{{wicketsOfTeam2}} ({{team2Overs}})</td>
+                    <b>{{team2}}</b> :{{runsOfTeam2}}/{{wicketsOfTeam2}} ({{team2Overs}})
+                </td>
                 <td>{{resultText}}</td>
                 <td>{{matchDate}}</td>
             </tr>

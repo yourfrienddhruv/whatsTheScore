@@ -53,7 +53,22 @@ CricketMatchResults.attachSchema(new SimpleSchema({
 
 if (Meteor.isClient) {
 
+    Session.setDefault("showRecordMatch", false);
+
     Meteor.subscribe("cricketMatchResults");
+
+    Template.body.helpers({
+        showRecordMatch: function () {
+            return Session.get("showRecordMatch");
+        }
+    });
+
+
+    Template.body.events({
+        "click #recordButton": function (event) {
+            Session.set("showRecordMatch", !Session.get("showRecordMatch"));
+        }
+    });
 
     Template.cricketMatchResults.helpers({
         cricketMatchResults: function () {
