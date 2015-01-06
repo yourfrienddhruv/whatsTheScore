@@ -109,12 +109,12 @@ if (Meteor.isClient) {
 
     Template.body.events({
         "click #recordButton": function (event) {
-            Session.set("showRecordCricketMatch", !Session.get("showRecordCricketMatch"));
+            Session.set("showRecordCricketMatch", true);
+            Session.set("cricketSummary", null);
         }
     });
 
     Template.cricketMatchResults.helpers({
-
         cricketMatchResults: function () {
             return CricketMatchSummary.find({}, {sort: {cricketMatchDate: -1}});
         }
@@ -123,12 +123,7 @@ if (Meteor.isClient) {
 
     Template.cricketMatchResults.events({
         "click #teamRecord": function (event) {
-            //console.log(event);
-            var a=Session.get("showRecordCricketMatch");
-            if(a)
-            Session.set("showRecordCricketMatch", !Session.get("showRecordCricketMatch"));
             Session.set("cricketSummary", this);
-            //console.log("summary"+ Session.get("summary"));
         }
     });
 
@@ -148,50 +143,11 @@ if (Meteor.isClient) {
 
     Template.recordScoreOfCricketMatch.events({
         "submit #recordScoreOfCricketMatchForm": function (event) {
-            Meteor.call("recordScoreOfCricketMatch",
-                event.target.team1.value,
-                event.target.team2.value,
-                event.target.resultText.value,
-
-                event.target.runsOfTeam1.value,
-                event.target.runsOfTeam2.value,
-                event.target.wicketsOfTeam1.value,
-                event.target.wicketsOfTeam2.value,
-                event.target.team1Overs.value,
-                event.target.team2Overs.value,
-
-                event.target.highestScoringPlayerTeam1.value,
-                event.target.highestRunsTeam1.value,
-                event.target.highestWicketPlayerTeam1.value,
-                event.target.highestWicketsTeam1.value,
-                event.target.highestScoringPlayerTeam2.value,
-                event.target.highestRunsTeam2.value,
-                event.target.highestWicketPlayerTeam2.value,
-                event.target.highestWicketsTeam2.value
-            );
-
-
-            // Clear form
-            event.target.team1.value =
-                event.target.team2.value =
-                    event.target.runsOfTeam1.value =
-                        event.target.runsOfTeam2.value =
-                            event.target.wicketsOfTeam1.value =
-                                event.target.wicketsOfTeam2.value =
-                                    event.target.team1Overs.value =
-                                        event.target.team2Overs.value =
-                                            event.target.resultText.value =
-                                                event.target.highestScoringPlayerTeam1.value =
-                                                    event.target.highestRunsTeam1.value =
-                                                        event.target.highestWicketPlayerTeam1.value =
-                                                            event.target.highestWicketsTeam1.value =
-                                                                event.target.highestScoringPlayerTeam2.value =
-                                                                    event.target.highestRunsTeam2.value =
-                                                                        event.target.highestWicketPlayerTeam2.value =
-                                                                            event.target.highestWicketsTeam2.value = '';
-
-            // Prevent default form submit
-            return false;
+            Meteor.call("recordScoreOfCricketMatch",AutoForm.getFormValues("recordScoreOfCricketMatchForm").insertDoc);
+        },
+        "click #showResultsButton": function (event) {
+            Session.set("showRecordCricketMatch", false);
+            Session.set("cricketSummary", null);
         }
     });
 
@@ -199,29 +155,9 @@ if (Meteor.isClient) {
 }
 
 Meteor.methods({
-    recordScoreOfCricketMatch: function (team1, team2, resultText, runsOfTeam1, runsOfTeam2, wicketsOfTeam1, wicketsOfTeam2, team1Overs, team2Overs, highestScoringPlayerTeam1, highestRunsTeam1,
-                                         highestWicketPlayerTeam1, highestWicketsTeam1, highestScoringPlayerTeam2, highestRunsTeam2,
-                                         highestWicketPlayerTeam2, highestWicketsTeam2) {
-        CricketMatchSummary.insert({
-            team1: team1,
-            team2: team2,
-            resultText: resultText,
-            cricketMatchDate: new Date(),
-            runsOfTeam1: runsOfTeam1,
-            runsOfTeam2: runsOfTeam2,
-            wicketsOfTeam1: wicketsOfTeam1,
-            wicketsOfTeam2: wicketsOfTeam2,
-            team1Overs: team1Overs,
-            team2Overs: team2Overs,
-            highestScoringPlayerTeam1: highestScoringPlayerTeam1,
-            highestRunsTeam1: highestRunsTeam1,
-            highestWicketPlayerTeam1: highestWicketPlayerTeam1,
-            highestWicketsTeam1: highestWicketsTeam1,
-            highestScoringPlayerTeam2: highestScoringPlayerTeam2,
-            highestRunsTeam2: highestRunsTeam2,
-            highestWicketPlayerTeam2: highestWicketPlayerTeam2,
-            highestWicketsTeam2: highestWicketsTeam2
-        });
+    recordScoreOfCricketMatch: function (doc) {
+        doc.cricketMatchDate = new Date();
+        CricketMatchSummary.insert(doc);
     }
 });
 

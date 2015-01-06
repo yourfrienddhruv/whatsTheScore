@@ -3,27 +3,23 @@
 </head>
 
 <body>
-
-<header>
-    Latest Cricket Match Result
-    <button id="recordButton">Start Recording CricketMatch</button>
-</header>
-
 {{#if showRecordCricketMatch}}
     {{> recordScoreOfCricketMatch}}
-{{/if}}
-
-<hr/>
-{{#if cricketSummary }}
-    {{>cricketMatchSummary}}
 {{else}}
-    {{> cricketMatchResults}}
+    <button id="recordButton">Start Recording CricketMatch</button>
+    <hr/>
+    {{#if cricketSummary }}
+        {{>cricketMatchSummary}}
+    {{else}}
+        {{> cricketMatchResults}}
+    {{/if}}
 {{/if}}
 
 </body>
 
 <template name="recordScoreOfCricketMatch">
-    {{#autoForm collection="CricketMatchSummary" id="recordScoreOfCricketMatchForm" type="insert"  class="form-inline form-group-sm"}}
+    {{#autoForm collection="CricketMatchSummary" id="recordScoreOfCricketMatchForm" type="insert"
+                class="form-inline form-group-sm"}}
         <fieldset>
             <legend>Team 1</legend>
             <div class="form-group{{#if afFieldIsInvalid name='team1'}}has-error{{/if}}">
@@ -135,26 +131,29 @@
                     <span class="help-block">{{afFieldMessage name='highestWicketsTeam2'}}</span>
                 {{/if}}
             </div>
-
-
         </fieldset>
     <br>
-        <div class="form-group {{#if afFieldIsInvalid name='resultText'}}has-error{{/if}}">
-            {{> afFieldInput name='resultText' placeholder="schemaLabel"}}
-            {{#if afFieldIsInvalid name='resultText'}}
-                <span class="help-block">{{afFieldMessage name='resultText'}}</span>
-            {{/if}}
-        </div>
-
-
-        <button type="submit" class="btn btn-primary">
-            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Record Result!
-        </button>
-
+        <fieldset>
+            <div class="form-group {{#if afFieldIsInvalid name='resultText'}}has-error{{/if}}">
+                {{> afFieldInput name='resultText' placeholder="schemaLabel"}}
+                {{#if afFieldIsInvalid name='resultText'}}
+                    <span class="help-block">{{afFieldMessage name='resultText'}}</span>
+                {{/if}}
+            </div>
+        </fieldset>
+        <fieldset>
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Record Result!
+            </button>
+            <button type="reset" class="btn btn-default" id="showResultsButton">Go back to results</button>
+        </fieldset>
     {{/autoForm}}
 </template>
 
-<template name="cricketMatchResults">
+<template name="cricketMatchResults" >
+    <header>
+        Latest Cricket Match Results
+    </header>
     <table class="table table-striped table-hover" id="table1">
         <thead>
         <tr>
