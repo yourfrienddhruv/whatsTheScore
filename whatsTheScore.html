@@ -6,36 +6,41 @@
 
 <header>
     Latest Cricket Match Result
-    <button id="recordButton">Start Recording Match</button>
+    <button id="recordButton">Start Recording CricketMatch</button>
 </header>
 
-{{#if showRecordMatch}}
+{{#if showRecordCricketMatch}}
     {{> recordScoreOfCricketMatch}}
 {{/if}}
 
 <hr/>
-{{> cricketMatchResults}}
+{{#if cricketSummary }}
+    {{>cricketMatchSummary}}
+{{else}}
+    {{> cricketMatchResults}}
+{{/if}}
+
 </body>
 
 <template name="recordScoreOfCricketMatch">
-    {{#autoForm collection="CricketMatchResults" id="recordScoreOfCricketMatchForm" type="insert"  class="form-inline"}}
+    {{#autoForm collection="CricketMatchSummary" id="recordScoreOfCricketMatchForm" type="insert"  class="form-inline form-group-sm"}}
         <fieldset>
             <legend>Team 1</legend>
-            <div class="form-group {{#if afFieldIsInvalid name='team1'}}has-error{{/if}}">
-                {{> afFieldInput name='team1' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
+            <div class="form-group{{#if afFieldIsInvalid name='team1'}}has-error{{/if}}">
+                {{> afFieldInput name='team1' placeholder="schemaLabel" }}
                 {{#if afFieldIsInvalid name='team1'}}
                     <span class="help-block">{{afFieldMessage name='team1'}}</span>
                 {{/if}}
             </div>
             <div class="form-group {{#if afFieldIsInvalid name='runsOfTeam1'}}has-error{{/if}}">
-                {{> afFieldInput name='runsOfTeam1' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
+                {{> afFieldInput name='runsOfTeam1' placeholder="schemaLabel" }}
                 {{#if afFieldIsInvalid name='runsOfTeam1'}}
                     <span class="help-block">{{afFieldMessage name='runsOfTeam1'}}</span>
                 {{/if}}
             </div>
 
             <div class="form-group {{#if afFieldIsInvalid name='wicketsOfTeam1'}}has-error{{/if}}">
-                {{> afFieldInput name='wicketsOfTeam1' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
+                {{> afFieldInput name='wicketsOfTeam1' placeholder="schemaLabel" }}
                 {{#if afFieldIsInvalid name='wicketsOfTeam1'}}
                     <span class="help-block">{{afFieldMessage name='wicketsOfTeam1'}}</span>
                 {{/if}}
@@ -43,47 +48,104 @@
 
 
             <div class="form-group {{#if afFieldIsInvalid name='team1Overs'}}has-error{{/if}}">
-                {{> afFieldInput name='team1Overs' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
+                {{> afFieldInput name='team1Overs' placeholder="schemaLabel" }}
                 {{#if afFieldIsInvalid name='team1Overs'}}
                     <span class="help-block">{{afFieldMessage name='team1Overs'}}</span>
                 {{/if}}
             </div>
+            <br>
+            <div class="form-group {{#if afFieldIsInvalid name='highestScoringPlayerTeam1'}}has-error{{/if}}">
+                {{> afFieldInput name='highestScoringPlayerTeam1' placeholder="schemaLabel" }}
+                {{#if afFieldIsInvalid name='highestScoringPlayerTeam1'}}
+                    <span class="help-block">{{afFieldMessage name='highestScoringPlayerTeam1'}}</span>
+                {{/if}}
+            </div>
+            <div class="form-group {{#if afFieldIsInvalid name='highestRunsTeam1'}}has-error{{/if}}">
+                {{> afFieldInput name='highestRunsTeam1' placeholder="schemaLabel" }}
+                {{#if afFieldIsInvalid name='highestRunsTeam1'}}
+                    <span class="help-block">{{afFieldMessage name='highestRunsTeam1'}}</span>
+                {{/if}}
+            </div>
+            <div class="form-group {{#if afFieldIsInvalid name='highestWicketPlayerTeam1'}}has-error{{/if}}">
+                {{> afFieldInput name='highestWicketPlayerTeam1' placeholder="schemaLabel" }}
+                {{#if afFieldIsInvalid name='highestWicketPlayerTeam1'}}
+                    <span class="help-block">{{afFieldMessage name='highestWicketPlayerTeam1'}}</span>
+                {{/if}}
+            </div>
+            <div class="form-group {{#if afFieldIsInvalid name='highestWicketsTeam1'}}has-error{{/if}}">
+                {{> afFieldInput name='highestWicketsTeam1' placeholder="schemaLabel"}}
+                {{#if afFieldIsInvalid name='highestWicketsTeam1'}}
+                    <span class="help-block">{{afFieldMessage name='highestWicketsTeam1'}}</span>
+                {{/if}}
+            </div>
+
+
         </fieldset>
         <fieldset>
             <legend>Team 2</legend>
             <div class="form-group {{#if afFieldIsInvalid name='team2'}}has-error{{/if}}">
-                {{> afFieldInput name='team2' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
+                {{> afFieldInput name='team2' placeholder="schemaLabel" }}
                 {{#if afFieldIsInvalid name='team2'}}
                     <span class="help-block">{{afFieldMessage name='team2'}}</span>
                 {{/if}}
             </div>
             <div class="form-group {{#if afFieldIsInvalid name='runsOfTeam2'}}has-error{{/if}}">
-                {{> afFieldInput name='runsOfTeam2' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
+                {{> afFieldInput name='runsOfTeam2' placeholder="schemaLabel" }}
                 {{#if afFieldIsInvalid name='runsOfTeam2'}}
                     <span class="help-block">{{afFieldMessage name='runsOfTeam2'}}</span>
                 {{/if}}
             </div>
 
             <div class="form-group {{#if afFieldIsInvalid name='wicketsOfTeam2'}}has-error{{/if}}">
-                {{> afFieldInput name='wicketsOfTeam2' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
+                {{> afFieldInput name='wicketsOfTeam2' placeholder="schemaLabel" }}
                 {{#if afFieldIsInvalid name='wicketsOfTeam2'}}
                     <span class="help-block">{{afFieldMessage name='wicketsOfTeam2'}}</span>
                 {{/if}}
             </div>
 
             <div class="form-group {{#if afFieldIsInvalid name='team2Overs'}}has-error{{/if}}">
-                {{> afFieldInput name='team2Overs' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
+                {{> afFieldInput name='team2Overs' placeholder="schemaLabel" }}
                 {{#if afFieldIsInvalid name='team2Overs'}}
                     <span class="help-block">{{afFieldMessage name='team2Overs'}}</span>
                 {{/if}}
             </div>
+            <br>
+            <!--summary-->
+            <div class="form-group {{#if afFieldIsInvalid name='highestScoringPlayerTeam2'}}has-error{{/if}}">
+                {{> afFieldInput name='highestScoringPlayerTeam2' placeholder="schemaLabel" }}
+                {{#if afFieldIsInvalid name='highestScoringPlayerTeam2'}}
+                    <span class="help-block">{{afFieldMessage name='highestScoringPlayerTeam2'}}</span>
+                {{/if}}
+            </div>
+            <div class="form-group {{#if afFieldIsInvalid name='highestRunsTeam2'}}has-error{{/if}}">
+                {{> afFieldInput name='highestRunsTeam2' placeholder="schemaLabel" }}
+                {{#if afFieldIsInvalid name='highestRunsTeam2'}}
+                    <span class="help-block">{{afFieldMessage name='highestRunsTeam2'}}</span>
+                {{/if}}
+            </div>
+            <div class="form-group {{#if afFieldIsInvalid name='highestWicketPlayerTeam2'}}has-error{{/if}}">
+                {{> afFieldInput name='highestWicketPlayerTeam2' placeholder="schemaLabel" }}
+                {{#if afFieldIsInvalid name='highestWicketPlayerTeam2'}}
+                    <span class="help-block">{{afFieldMessage name='highestWicketPlayerTeam2'}}</span>
+                {{/if}}
+            </div>
+            <div class="form-group {{#if afFieldIsInvalid name='highestWicketsTeam2'}}has-error{{/if}}">
+                {{> afFieldInput name='highestWicketsTeam2' placeholder="schemaLabel" }}
+                {{#if afFieldIsInvalid name='highestWicketsTeam2'}}
+                    <span class="help-block">{{afFieldMessage name='highestWicketsTeam2'}}</span>
+                {{/if}}
+            </div>
+
+
         </fieldset>
+    <br>
         <div class="form-group {{#if afFieldIsInvalid name='resultText'}}has-error{{/if}}">
-            {{> afFieldInput name='resultText' placeholder="schemaLabel" style="width: 175px; height: 25px"}}
+            {{> afFieldInput name='resultText' placeholder="schemaLabel"}}
             {{#if afFieldIsInvalid name='resultText'}}
                 <span class="help-block">{{afFieldMessage name='resultText'}}</span>
             {{/if}}
         </div>
+
 
         <button type="submit" class="btn btn-primary">
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Record Result!
@@ -93,7 +155,7 @@
 </template>
 
 <template name="cricketMatchResults">
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover" id="table1">
         <thead>
         <tr>
             <th>Team : Runs/Wickets (Overs)</th>
@@ -103,15 +165,74 @@
         </thead>
         <tbody>
         {{#each cricketMatchResults}}
-            <tr>
+            <tr id="teamRecord">
                 <td>
                     <b>{{team1}}</b> :{{runsOfTeam1}}/{{wicketsOfTeam1}} ({{team1Overs}}) v/s
                     <b>{{team2}}</b> :{{runsOfTeam2}}/{{wicketsOfTeam2}} ({{team2Overs}})
                 </td>
                 <td>{{resultText}}</td>
-                <td>{{matchDate}}</td>
+                <td>{{cricketMatchDate}}</td>
             </tr>
         {{/each}}
         </tbody>
     </table>
 </template>
+
+<template name="cricketMatchSummary">
+    <div>
+        <div class="row">
+            <div class="col-md-6">
+                <b>{{cricketSummary.team1}}{{cricketSummary.runsOfTeam1}}/{{cricketSummary.wicketsOfTeam1}} ({{cricketSummary.team1Overs}})</b>
+            </div>
+            <div class="col-md-6 text-right">
+                {{cricketcricketSummary.CricketMatchDate}}
+            </div>
+        </div>
+
+        <br>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
+                {{cricketSummary.highestScoringPlayerTeam1}}-({{cricketSummary.highestRunsTeam1}})
+            </div>
+            <div class="col-md-6 text-right">
+                {{cricketSummary.highestWicketPlayerTeam1}}-{{cricketSummary.highestWicketsTeam1}}
+            </div>
+        </div>
+
+    </div>
+    <br>
+    <hr>
+    <hr>
+
+    <div>
+        <div class="row">
+            <div class="col-md-6">
+                <b>{{cricketSummary.team2}}{{cricketSummary.runsOfTeam2}}/{{cricketSummary.wicketsOfTeam2}} ({{cricketSummary.team2Overs}})</b>
+            </div>
+            <div class="col-md-6 text-right">
+            </div>
+        </div>
+
+        <br>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
+                {{cricketSummary.highestScoringPlayerTeam2}}-({{cricketSummary.highestRunsTeam2}})
+            </div>
+            <div class="col-md-6 text-right">
+                {{cricketSummary.highestWicketPlayerTeam2}}-{{cricketSummary.highestWicketsTeam2}}
+            </div>
+        </div>
+    </div>
+    <br>
+
+
+    <div align="center">
+        <button id="back">Back</button>
+    </div>
+
+</template>
+
