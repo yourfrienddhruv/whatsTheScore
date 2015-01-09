@@ -3,23 +3,26 @@
 </head>
 
 <body>
-{{#if showRecordCricketMatch}}
+
+{{>liveScore}}
+
+<!--{{#if showRecordCricketMatch}}
     {{> recordScoreOfCricketMatch}}
 {{else}}
     <button id="recordButton">Start Recording CricketMatch</button>
     <hr/>
     {{#if cricketSummary }}
-        {{>cricketMatchSummary}}
-    {{else}}
-        {{> cricketMatchResults}}
-    {{/if}}
+    {{>cricketMatchSummary}}
+{{else}}
+    {{> cricketMatchResults}}
 {{/if}}
-
+{{/if}}
+-->
 </body>
 
 <template name="recordScoreOfCricketMatch">
     {{#autoForm collection="CricketMatchSummary" id="recordScoreOfCricketMatchForm" type="insert"
-                class="form-inline form-group-sm"}}
+    class="form-inline form-group-sm"}}
         <fieldset>
             <legend>Team 1</legend>
             <div class="form-group{{#if afFieldIsInvalid name='team1'}}has-error{{/if}}">
@@ -50,6 +53,7 @@
                 {{/if}}
             </div>
             <br>
+
             <div class="form-group {{#if afFieldIsInvalid name='highestScoringPlayerTeam1'}}has-error{{/if}}">
                 {{> afFieldInput name='highestScoringPlayerTeam1' placeholder="schemaLabel" }}
                 {{#if afFieldIsInvalid name='highestScoringPlayerTeam1'}}
@@ -132,7 +136,7 @@
                 {{/if}}
             </div>
         </fieldset>
-    <br>
+        <br>
         <fieldset>
             <div class="form-group {{#if afFieldIsInvalid name='resultText'}}has-error{{/if}}">
                 {{> afFieldInput name='resultText' placeholder="schemaLabel"}}
@@ -150,7 +154,7 @@
     {{/autoForm}}
 </template>
 
-<template name="cricketMatchResults" >
+<template name="cricketMatchResults">
     <header>
         Latest Cricket Match Results
     </header>
@@ -181,7 +185,8 @@
     <div>
         <div class="row">
             <div class="col-md-6">
-                <b>{{cricketSummary.team1}}{{cricketSummary.runsOfTeam1}}/{{cricketSummary.wicketsOfTeam1}} ({{cricketSummary.team1Overs}})</b>
+                <b>{{cricketSummary.team1}}{{cricketSummary.runsOfTeam1}}/{{cricketSummary.wicketsOfTeam1}}
+                    ({{cricketSummary.team1Overs}})</b>
             </div>
             <div class="col-md-6 text-right">
                 {{cricketcricketSummary.CricketMatchDate}}
@@ -208,7 +213,8 @@
     <div>
         <div class="row">
             <div class="col-md-6">
-                <b>{{cricketSummary.team2}}{{cricketSummary.runsOfTeam2}}/{{cricketSummary.wicketsOfTeam2}} ({{cricketSummary.team2Overs}})</b>
+                <b>{{cricketSummary.team2}}{{cricketSummary.runsOfTeam2}}/{{cricketSummary.wicketsOfTeam2}}
+                    ({{cricketSummary.team2Overs}})</b>
             </div>
             <div class="col-md-6 text-right">
             </div>
@@ -235,3 +241,121 @@
 
 </template>
 
+
+<template name="liveScore">
+
+    {{#if match._id}}
+        {{#if session._id}}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Record Ball
+                        <button type="button" class="btn btn-primary" id="rotateStrike">Rotate Strike</button>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    {{> quickForm collection="CricketSessionEvent" doc=sessionEvent
+                    id="cricketSessionEventForm" type="submit" class="form-inline form-group-sm" }}
+                </div>
+            </div>
+        {{else}}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Start a Session</h3>
+                </div>
+                <div class="panel-body">
+                    {{> quickForm collection="CricketSession" id="cricketSessionForm"
+                    doc=session
+                    type="submit" class="form-inline form-group-sm" }}
+                </div>
+            </div>
+        {{/if}}
+    {{else}}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Start a Match</h3>
+            </div>
+            <div class="panel-body">
+                {{> quickForm collection="CricketMatch" id="cricketMatchForm" type="submit" class="form-inline form-group-sm" }}
+            </div>
+        </div>
+    {{/if}}
+
+</template>
+
+<template name="liveScore2">
+
+    {{> quickForm collection="CricketMatch" id="cricketMatchForm" type="insert"  class="form-inline form-group-sm" }}
+
+    {{> quickForm collection="CricketSession" id="cricketMatchForm" type="insert"}}
+
+
+
+
+
+    {{#autoForm type="insert" collection="CricketSessionEvent" id="liveScoreForm" class="form-inline form-group-sm"  }}
+        <fieldset>
+            Match : {{> afFieldInput name='match' value="India vs. Pak" }}
+            <br/>
+            battingTeam{{> afFieldInput name='battingTeam' value="India" }}
+            sessionNumber{{> afFieldInput name='sessionNumber' value="1" }}
+            inning{{> afFieldInput name='inning' value=liveRecord.inning }}
+            currentOver{{> afFieldInput name='currentOver' value=liveRecord.currentOver }}
+            <br/>
+            Run of batsman : {{> afFieldInput type="hidden" name='runOfBatsman' id="runOfBatsman" }} <br/>
+            Ball sequence: {{> afFieldInput name='ballSequence' value=ballRecord.ballSequence }}<br/>
+            Balls in Over <input type="text" id="ballInOver" value={{ballRecord.ballInOver}}><br/>
+
+            {{> afFieldInput name='onStrikePlayer' }}
+
+
+            <div class="form-group {{#if afFieldIsInvalid name='player1'}}has-error{{/if}}">
+                {{> afFieldInput name='player1' placeholder="Player 1" }}
+                {{#if afFieldIsInvalid name='player1'}}
+                    <span class="help-block">{{afFieldMessage name='player1'}}</span>
+                {{/if}}
+                :  {{liveRecord.player1Run}} {{#if liveRecord.onStrike}}*{{/if}} &nbsp; Wicket <input
+                    name="ballType" type="radio" class="out" value="Out1"><br>
+            </div>
+            <br>
+
+            <div class="form-group {{#if afFieldIsInvalid name='player2'}}has-error{{/if}}">
+                {{> afFieldInput name='player2' placeholder="Player 2" }}
+                {{#if afFieldIsInvalid name='player2'}}
+                    <span class="help-block">{{afFieldMessage name='player2'}}</span>
+                {{/if}}
+                : {{liveRecord.player1Run}} {{#if liveRecord.onStrike}}{{else}}*{{/if}}&nbsp; Wicket
+                <input name="ballType" type="radio" class="out" value="Out2"><br><br>
+            </div>
+            <br>
+            <button type="button" class="btn btn-primary" id="rotateStrike">Rotate Strike</button>
+            <br><br>
+
+            {{#if afFieldIsInvalid name='bowler'}}has-error{{/if}}
+            {{> afFieldInput name='bowler' placeholder="Bowler" }}
+            {{#if afFieldIsInvalid name='bowler'}}
+                <span class="help-block">{{afFieldMessage name='bowler'}}</span>
+            {{/if}}
+
+            <br><br>
+
+            Valid Ball<input name="ballType" type="radio" class="wide" value="valid" checked="true">
+            Wide <input name="ballType" type="radio" class="wide" value="1">
+            No Ball<input name="ballType" type="radio" class="noBall" value="No Ball">
+            Extra <input name="ballType" type="radio" class="extra" value="Extra">
+
+
+            <br><br>
+            <button type="button" class="btn btn-primary" id="run0">0</button>
+            <button type="button" class="btn btn-primary" id="run1">1</button>
+            <button type="button" class="btn btn-primary" id="run2">2</button>
+            <button type="button" class="btn btn-primary" id="run3">3</button>
+            <button type="button" class="btn btn-primary" id="run4">4</button>
+            <button type="button" class="btn btn-primary" id="run6">6</button>
+
+            <input type="submit" id="submitButton" class="hide"/>
+
+        </fieldset>
+
+    {{/autoForm}}
+
+</template>
